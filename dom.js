@@ -1,75 +1,92 @@
-var form = document.getElementById('addForm');
-var itemList = document.getElementById('items');
-var filter = document.getElementById('filter');
 
-// Form submit event
+const form = document.getElementById('addForm');
+const ItemList = document.getElementById('items');
+const filter = document.getElementById('filter');
+// form submit event
+
 form.addEventListener('submit', addItem);
-// Delete event
-itemList.addEventListener('click', removeItem);
-// Filter event
-filter.addEventListener('keyup', filterItems);
 
-// Add item
+// Add Item
 function addItem(e){
-  e.preventDefault();
+    e.preventDefault();
+   
 
-  // Get input value
-  var newItem = document.getElementById('item').value;
+    // create new item for the input 
+    const newItem = document.getElementById('item').value;
+    const desCription = document.getElementById('description').value;
+    // ceate new li 
+    const li = document.createElement('li');
 
-  // Create new li element 
-  var li = document.createElement('li');
-  // Add class
-  li.className = 'list-group-item';
-  // Add text node with input value
-  li.appendChild(document.createTextNode(newItem));
+    // add class to li
+    li.className = 'list-group-item';
+    
+    const newText = document.createTextNode(newItem);
+    const descriptionNode = document.createTextNode(' '+desCription);
+    // append the newitem to li
+    li.appendChild(newText);
+    li.appendChild(descriptionNode);
+    
+    //append the li into ItemList
+    ItemList.appendChild(li);
+   
 
-  // Create del button element
-  var deleteBtn = document.createElement('button');
+    console.log(li);
+    // create a delete button
+    const delbtn = document.createElement('button');
+    // add class to the button
+    delbtn.className = 'btn btn-danger btn-sm float-right delete';
+    //add text to the buttton
+    delbtn.appendChild(document.createTextNode('X'));
+    // add delbtn to the list
+    li.appendChild(delbtn);
+    ItemList.appendChild(li);
 
-  // Add classes to del button
-  deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
-  
-  // Append text node
-  deleteBtn.appendChild(document.createTextNode('X'));
-  // Create edit button element
-  var editBtn = document.createElement('button');
+    // create a edit button
+    const editbtn = document.createElement('button');
+    editbtn.className = 'btn btn-primary btn-sm float-right';
+    editbtn.appendChild(document.createTextNode('Edit'));
+    li.appendChild(editbtn);
+    ItemList.appendChild(li);
 
-  // Add classes to edit button
-  editBtn.className = 'btn btn-primary btn-sm float-right edit';
-  // Append text node
-  editBtn.appendChild(document.createTextNode('Edit'));
-  // Append button to li
-  li.appendChild(deleteBtn);
-  li.appendChild(editBtn);
-
-  // Append li to list
-  itemList.appendChild(li);
+    
 }
 
-// Remove item
+// craete a remove function 
+ItemList.addEventListener('click' , removeItem);
+
 function removeItem(e){
-  if(e.target.classList.contains('delete')){
-    if(confirm('Are You Sure?')){
-      var li = e.target.parentElement;
-      itemList.removeChild(li);
+    if(e.target.classList.contains('delete')){
+       if(confirm('Are You Sure?')){
+        var li = e.target.parentElement;
+        ItemList.removeChild(li);
+       }
     }
-  }
 }
 
-// Filter Items
-function filterItems(e){
-  // convert text to lowercase
-  var text = e.target.value.toLowerCase();
-  // Get lis
-  var items = itemList.getElementsByTagName('li');
-  // Convert to an array
-  Array.from(items).forEach(function(item){
-    var itemName = item.firstChild.textContent;
-    if(itemName.toLowerCase().indexOf(text) != -1){
-      item.style.display = 'block';
-    } else {
-      item.style.display = 'none';
-    }
-  });
+// filter event
+filter.addEventListener('keyup' , filterItem);
+
+// filterItem function
+
+function filterItem(e){
+    // converts text to lower
+    var text = e.target.value.toLowerCase();
+    // get li's
+    var items = ItemList.getElementsByTagName('li');
+    // converting to an array of html collection
+    Array.from(items).forEach(function(item){
+        var itemName = item.firstChild.textContent;
+        var descriptionName = item.childNodes[1].textContent;
+
+        if(itemName.toLowerCase().indexOf(text) != -1){
+            item.style.display = 'block';
+        }else{
+            item.style.display = 'none';
+        }
+        if(descriptionName.toLowerCase().indexOf(text) != -1){
+            item.style.display = 'block';
+        }else{
+            item.style.display = 'none';
+        }
+    })
 }
- 
