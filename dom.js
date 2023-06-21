@@ -21,13 +21,6 @@ const childElem = document.createElement('li')
 // parentElem.appendChild(childElem)
 childElem.textContent=obj.name + '-' + obj.email + '-' + obj.phonenumber
 
-const deleteButton= document.createElement('input')
-deleteButton.type = "button"
-deleteButton.value = "Delete"
-deleteButton.onclick = () => {
-    localStorage.removeItem(obj.email)
-    parentElem.removeChild(childElem)
-}
 const editButton = document.createElement('input');
 editButton.type = 'button';
 editButton.value = 'Edit';
